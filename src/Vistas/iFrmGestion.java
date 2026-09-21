@@ -1,10 +1,19 @@
 
 package Vistas;
 
+import Clases.Categoria;
+import Clases.Producto;
+import java.util.TreeSet;
+
 public class iFrmGestion extends javax.swing.JInternalFrame {
 
+    private TreeSet<Producto> productos = new TreeSet<>();
+    
     public iFrmGestion() {
         initComponents();
+        for (Categoria cat : Categoria.values()) {
+            cboCategoria.addItem(cat.name());
+        }
         
     }
 
@@ -45,6 +54,8 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Filtrar por Categoría:");
+
+        cboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
 
         tblProductos.setForeground(new java.awt.Color(0, 0, 0));
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
