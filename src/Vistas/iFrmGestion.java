@@ -5,6 +5,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
     public iFrmGestion() {
         initComponents();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -128,7 +129,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/icons8-magnifying-glass-tilted-right-48.png"))); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/icons8-magnifying-glass-tilted-right-48.png"))); // NOI18N
 
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -136,22 +137,22 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
         btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/new-product.png"))); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/new-product.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/box.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/box.png"))); // NOI18N
         btnGuardar.setText("Guardar");
 
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
-        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/update.png"))); // NOI18N
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/update.png"))); // NOI18N
         btnActualizar.setText("Actualizar");
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/bin.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/bin.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,7 +180,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
                                         .addComponent(btnBuscar)
                                         .addGap(16, 16, 16))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, Short.MAX_VALUE)
+                                        .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(8, 8, 8)))))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Vistas;
 
 public class MenuGeneral extends javax.swing.JFrame {
@@ -31,16 +28,21 @@ public class MenuGeneral extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 820, Short.MAX_VALUE)
+            .addGap(0, 787, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGap(0, 667, Short.MAX_VALUE)
         );
 
         mnuAdm.setText("Administración");
 
         mniProductos.setText("Productos");
+        mniProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniProductosActionPerformed(evt);
+            }
+        });
         mnuAdm.add(mniProductos);
 
         jMenuBar1.add(mnuAdm);
@@ -74,6 +76,16 @@ public class MenuGeneral extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mniProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniProductosActionPerformed
+        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        iFrmGestion gestion = new iFrmGestion();
+        gestion.setVisible(true);
+        escritorio.add(gestion);
+        gestion.moveToFront();
+    }//GEN-LAST:event_mniProductosActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
