@@ -1,6 +1,12 @@
 
 package Vistas;
 
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 public class MenuGeneral extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuGeneral.class.getName());
@@ -87,6 +93,33 @@ public class MenuGeneral extends javax.swing.JFrame {
         gestion.moveToFront();
     }//GEN-LAST:event_mniProductosActionPerformed
 
+    public static void borraFilasTabla(DefaultTableModel modelo) {
+        int filas = modelo.getRowCount() -1;
+        for (int i = filas; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+    
+    public static void limpiarCampos(JPanel  jPanel) {
+        JComboBox combo = null;
+        for (int i = 0; i < jPanel.getComponents().length; i++) {
+            if (jPanel.getComponents()[i] instanceof JTextField) {
+                JTextField caja = (JTextField) jPanel.getComponents()[i];
+                caja.setText("");
+            }
+            
+            if (jPanel.getComponents()[i] instanceof JSpinner) {
+                JSpinner spinner = (JSpinner) jPanel.getComponents()[i];
+                spinner.setValue(0);
+            }
+            
+            if (jPanel.getComponents()[i] instanceof JComboBox) {
+                combo = (JComboBox) jPanel.getComponents()[i];
+                combo.setSelectedIndex(-1);
+            }
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

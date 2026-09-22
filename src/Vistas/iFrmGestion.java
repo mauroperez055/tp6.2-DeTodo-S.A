@@ -4,6 +4,9 @@ package Vistas;
 import Clases.Categoria;
 import Clases.Producto;
 import java.util.TreeSet;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class iFrmGestion extends javax.swing.JInternalFrame {
 
@@ -11,9 +14,19 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
     
     public iFrmGestion() {
         initComponents();
+        btnBuscar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        
+        // cargo el cboCategoria
         for (Categoria cat : Categoria.values()) {
             cboCategoria.addItem(cat.name());
+            cboRubro.addItem(cat.name());
         }
+        
+        // limpio la tabla apenas se abre la ventana
+        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        MenuGeneral.borraFilasTabla(modelo);
         
     }
 
@@ -93,6 +106,20 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Stock:");
 
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
+            }
+        });
+
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyReleased(evt);
+            }
+        });
+
+        cboRubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
         pnlDatos.setLayout(pnlDatosLayout);
         pnlDatosLayout.setHorizontalGroup(
@@ -145,16 +172,32 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/new-product.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/box.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.setEnabled(false);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
@@ -240,6 +283,69 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        MenuGeneral.limpiarCampos(pnlDatos);
+        btnGuardar.setEnabled(true);
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (txtCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un código.");
+            return;
+        }
+        
+        if (txtDescripcion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una descripción.");
+            return;
+        }
+        
+        if (txtPrecio.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un precio.");
+            return;
+        }
+        
+        if (cboRubro.getSelectedItem() == null || cboRubro.getSelectedItem().toString().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un rubro.");
+            return;
+        }
+        
+        if ((int) spinStock.getValue() < 0) {
+            JOptionPane.showMessageDialog(this, "El stock no puede ser negativo.");
+            return;
+        }
+        
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        Categoria cat = Categoria.valueOf((String) cboRubro.getSelectedItem());  
+        int stock = (int) spinStock.getValue();
+        Producto prod = new Producto(codigo, descripcion, precio, stock, cat);
+        
+        System.out.println(prod.toString());
+        
+        productos.add(prod);
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
+        JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
+        btnGuardar.setEnabled(false);
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        // TODO add your handling code here:  
+        btnBuscar.setEnabled(true);
+    }//GEN-LAST:event_txtCodigoKeyReleased
+
+    private void txtDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyReleased
+        // TODO add your handling code here:
+        btnBuscar.setEnabled(true);
+    }//GEN-LAST:event_txtDescripcionKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
