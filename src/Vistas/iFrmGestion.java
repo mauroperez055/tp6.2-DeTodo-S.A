@@ -10,23 +10,15 @@ import javax.swing.table.DefaultTableModel;
 
 public class iFrmGestion extends javax.swing.JInternalFrame {
 
-    private TreeSet<Producto> productos = new TreeSet<>();
+    private TreeSet<Producto> productos = MenuGeneral.getProductos();
     
     public iFrmGestion() {
         initComponents();
-        btnBuscar.setEnabled(false);
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
-        
-        // cargo el cboCategoria
-        for (Categoria cat : Categoria.values()) {
-            cboCategoria.addItem(cat.name());
-            cboRubro.addItem(cat.name());
-        }
-        
-        // limpio la tabla apenas se abre la ventana
-        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
-        MenuGeneral.borraFilasTabla(modelo);
+        btnBuscar.setEnabled(false);
+        cargarCboBoxs();
+        cargarTablaProductos(null);
         
     }
 
@@ -69,6 +61,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         jLabel2.setText("Filtrar por Categoría:");
 
         cboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        cboCategoria.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboCategoriaItemStateChanged(evt);
+            }
+        });
 
         tblProductos.setForeground(new java.awt.Color(0, 0, 0));
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -81,7 +78,15 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
             new String [] {
                 "Código", "Descripción", "Precio", "Categoría", "Stock"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblProductos);
 
         pnlDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -330,6 +335,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
         btnGuardar.setEnabled(false);
+        cargarTablaProductos(null);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -347,6 +353,49 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(true);
     }//GEN-LAST:event_txtDescripcionKeyReleased
 
+    private void cboCategoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboCategoriaItemStateChanged
+        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        String seleccionCat = (String) cboCategoria.getSelectedItem();
+        
+        if (seleccionCat == null || seleccionCat.isEmpty()) {
+            cargarTablaProductos(null);
+            return;
+        }
+        
+        Categoria cat = Categoria.valueOf((String) cboCategoria.getSelectedItem()); 
+        cargarTablaProductos(cat);
+        
+    }//GEN-LAST:event_cboCategoriaItemStateChanged
+
+    private void cargarCboBoxs() {
+        cboCategoria.removeAllItems();
+        cboRubro.removeAllItems();
+        cboCategoria.addItem("");
+        cboRubro.addItem("");
+        
+        for (Categoria cat : Categoria.values()) {
+            cboCategoria.addItem(cat.name());
+            cboRubro.addItem(cat.name());
+        }
+    }
+    
+    private void cargarTablaProductos(Categoria categoria) {
+        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        MenuGeneral.borraFilasTabla(modelo);
+        
+        for (Producto prod : productos) {
+            if (categoria == null || prod.getRubro() == categoria) {
+                modelo.addRow(new Object[] {
+                    prod.getCodigo(),
+                    prod.getDescripcion(),
+                    prod.getPrecio(),
+                    prod.getRubro(),
+                    prod.getStock()
+                });
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

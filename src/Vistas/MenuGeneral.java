@@ -1,6 +1,8 @@
 
 package Vistas;
 
+import Clases.Producto;
+import java.util.TreeSet;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -11,6 +13,8 @@ public class MenuGeneral extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuGeneral.class.getName());
 
+    private static TreeSet<Producto> productos = new TreeSet<>();
+    
     public MenuGeneral() {
         initComponents();
     }
@@ -118,6 +122,10 @@ public class MenuGeneral extends javax.swing.JFrame {
                 combo.setSelectedIndex(-1);
             }
         }
+    }
+    
+    public static TreeSet<Producto> getProductos() {
+        return productos;
     }
     
     public static void main(String args[]) {
