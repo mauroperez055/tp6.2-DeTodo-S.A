@@ -3,6 +3,7 @@ package Vistas;
 
 import Clases.Categoria;
 import Clases.Producto;
+import java.awt.Component;
 import java.util.TreeSet;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -163,6 +164,41 @@ public class MenuGeneral extends javax.swing.JFrame {
         }
         
         return true;
+    }
+    
+    public static void desActivarCampos(JPanel panel, boolean valor) {
+        for (Component comp : panel.getComponents()) {
+            if (comp instanceof JTextField 
+                || comp instanceof JComboBox 
+                || comp instanceof JSpinner) {
+            comp.setEnabled(valor);
+            }
+        }
+    }
+    
+    public static void camposEditables(JPanel panel, boolean valor) {
+        for (Component comp : panel.getComponents()) {
+            if (comp instanceof JTextField) {
+                ((JTextField) comp).setEditable(valor);
+            }
+            
+            if (comp instanceof JComboBox) {
+                ((JComboBox) comp).setEnabled(valor);
+            }
+            
+            if (comp instanceof JSpinner) {
+               ((JSpinner) comp).setEnabled(valor);
+            }
+        }
+    }
+    
+    public static void cargarComboBox(JComboBox cboBox) {
+        cboBox.removeAllItems();
+        cboBox.addItem("");
+        
+        for (Categoria cat : Categoria.values()) {
+            cboBox.addItem(cat.name());
+        }
     }
     
     public static void main(String args[]) {

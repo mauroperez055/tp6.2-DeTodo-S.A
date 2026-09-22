@@ -22,8 +22,9 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
         btnBuscar.setEnabled(false);
-        desactivarComponentes(pnlDatos, false);
-        cargarCboBoxs();
+        MenuGeneral.desActivarCampos(pnlDatos, false);
+        MenuGeneral.cargarComboBox(cboRubro);
+        MenuGeneral.cargarComboBox(cboCategoria);
         MenuGeneral.cargarTablaProductos(null, tblProductos);
         
     }
@@ -91,6 +92,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblProductos);
@@ -307,7 +313,9 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         MenuGeneral.limpiarCampos(pnlDatos);
         btnGuardar.setEnabled(true);
-        desActivarCampos(pnlDatos, true);
+        MenuGeneral.desActivarCampos(pnlDatos, true);
+        MenuGeneral.camposEditables(pnlDatos, true);
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -356,7 +364,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         productos.add(prod);
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
-        desActivarCampos(pnlDatos, false);
+        MenuGeneral.desActivarCampos(pnlDatos, false);
         btnGuardar.setEnabled(false);
         MenuGeneral.cargarTablaProductos(null, tblProductos);
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -378,7 +386,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
     private void cboCategoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboCategoriaItemStateChanged
         // TODO add your handling code here:
-//        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        MenuGeneral.limpiarCampos(pnlDatos);
         String seleccionCat = (String) cboCategoria.getSelectedItem();
         
         if (seleccionCat == null || seleccionCat.isEmpty()) {
@@ -399,7 +407,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         if (txtCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código para buscar.", "Atención!", JOptionPane.WARNING_MESSAGE);
+            MenuGeneral.cargarTablaProductos(null, tblProductos);
             return;
         }
         
@@ -422,26 +430,32 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    public void desActivarCampos(JPanel panel, boolean valor) {
-        for (Component comp : panel.getComponents()) {
-            if (comp instanceof JTextField 
-                || comp instanceof JComboBox 
-                || comp instanceof JSpinner) {
-            comp.setEnabled(valor);
-        }
-        }
-    }
-    private void cargarCboBoxs() {
-        cboCategoria.removeAllItems();
-        cboRubro.removeAllItems();
-        cboCategoria.addItem("");
-        cboRubro.addItem("");
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        // TODO add your handling code here:
+        MenuGeneral.limpiarCampos(pnlDatos);
+        MenuGeneral.desActivarCampos(pnlDatos, true);
         
-        for (Categoria cat : Categoria.values()) {
-            cboCategoria.addItem(cat.name());
-            cboRubro.addItem(cat.name());
+        int fila = tblProductos.getSelectedRow();
+        
+        if (fila != -1) {
+            String codigo = tblProductos.getValueAt(fila, 0).toString();
+            txtCodigo.setText(codigo);
+            
+            String descripcion = tblProductos.getValueAt(fila, 1).toString();
+            txtDescripcion.setText(descripcion);
+            
+            String precio = tblProductos.getValueAt(fila, 2).toString();
+            txtPrecio.setText(precio);
+            
+            Categoria cat = (Categoria) tblProductos.getValueAt(fila, 3);
+            cboRubro.setSelectedItem(cat.name());
+            
+            int stock = Integer.parseInt(tblProductos.getValueAt(fila, 4).toString());
+            spinStock.setValue(stock);
+            
+            MenuGeneral.camposEditables(pnlDatos, false);
         }
-    }
+    }//GEN-LAST:event_tblProductosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
