@@ -1,11 +1,13 @@
 
 package Vistas;
 
+import Clases.Categoria;
 import Clases.Producto;
 import java.util.TreeSet;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -126,6 +128,41 @@ public class MenuGeneral extends javax.swing.JFrame {
     
     public static TreeSet<Producto> getProductos() {
         return productos;
+    }
+    
+    public static void cargarTablaProductos(Categoria categoria, JTable jTable) {
+        DefaultTableModel modelo = (DefaultTableModel) jTable.getModel();
+        MenuGeneral.borraFilasTabla(modelo);
+        
+        for (Producto prod : productos) {
+            if (categoria == null || prod.getRubro() == categoria) {
+                modelo.addRow(new Object[] {
+                    prod.getCodigo(),
+                    prod.getDescripcion(),
+                    prod.getPrecio(),
+                    prod.getRubro(),
+                    prod.getStock()
+                });
+            }
+        }
+    }
+    
+    public static void validarEnteros(java.awt.event.KeyEvent evt, JTextField jText) {
+        char caracter = evt.getKeyChar();
+
+        if (!Character.isDigit(caracter)) {
+            evt.consume();
+        }
+    }
+    
+    public static boolean validarPrecio(JTextField jText) {
+        String precio = jText.getText();
+        
+        if (!precio.matches("^(0|[1-9]\\d*)(\\.\\d+)?$")) {
+            return false;
+        }
+        
+        return true;
     }
     
     public static void main(String args[]) {

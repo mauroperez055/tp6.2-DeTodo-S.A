@@ -6,6 +6,7 @@ import Clases.Producto;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class iFrmGestion extends javax.swing.JInternalFrame {
@@ -18,7 +19,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnEliminar.setEnabled(false);
         btnBuscar.setEnabled(false);
         cargarCboBoxs();
-        cargarTablaProductos(null);
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
         
     }
 
@@ -115,6 +116,9 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
         });
 
         txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -173,6 +177,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         );
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/icons8-magnifying-glass-tilted-right-48.png"))); // NOI18N
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -324,6 +333,13 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         
         int codigo = Integer.parseInt(txtCodigo.getText());
         String descripcion = txtDescripcion.getText();
+        
+        if (!MenuGeneral.validarPrecio(txtPrecio)) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un precio válido.", "Atención!", JOptionPane.ERROR_MESSAGE);
+            txtPrecio.setText("");
+            return;
+        }
+        
         double precio = Double.parseDouble(txtPrecio.getText());
         Categoria cat = Categoria.valueOf((String) cboRubro.getSelectedItem());  
         int stock = (int) spinStock.getValue();
@@ -335,7 +351,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
         btnGuardar.setEnabled(false);
-        cargarTablaProductos(null);
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -355,18 +371,31 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
     private void cboCategoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboCategoriaItemStateChanged
         // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+//        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
         String seleccionCat = (String) cboCategoria.getSelectedItem();
         
         if (seleccionCat == null || seleccionCat.isEmpty()) {
-            cargarTablaProductos(null);
+            MenuGeneral.cargarTablaProductos(null, tblProductos);
             return;
         }
         
         Categoria cat = Categoria.valueOf((String) cboCategoria.getSelectedItem()); 
-        cargarTablaProductos(cat);
+        MenuGeneral.cargarTablaProductos(cat, tblProductos);
         
     }//GEN-LAST:event_cboCategoriaItemStateChanged
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        // TODO add your handling code here:
+        MenuGeneral.validarEnteros(evt, txtCodigo);
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        String descripcion = txtDescripcion.getText();
+        
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cargarCboBoxs() {
         cboCategoria.removeAllItems();
@@ -377,23 +406,6 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         for (Categoria cat : Categoria.values()) {
             cboCategoria.addItem(cat.name());
             cboRubro.addItem(cat.name());
-        }
-    }
-    
-    private void cargarTablaProductos(Categoria categoria) {
-        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
-        MenuGeneral.borraFilasTabla(modelo);
-        
-        for (Producto prod : productos) {
-            if (categoria == null || prod.getRubro() == categoria) {
-                modelo.addRow(new Object[] {
-                    prod.getCodigo(),
-                    prod.getDescripcion(),
-                    prod.getPrecio(),
-                    prod.getRubro(),
-                    prod.getStock()
-                });
-            }
         }
     }
 
