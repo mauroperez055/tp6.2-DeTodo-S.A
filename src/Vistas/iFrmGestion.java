@@ -3,9 +3,13 @@ package Vistas;
 
 import Clases.Categoria;
 import Clases.Producto;
+import java.awt.Component;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +22,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
         btnBuscar.setEnabled(false);
+        desactivarComponentes(pnlDatos, false);
         cargarCboBoxs();
         MenuGeneral.cargarTablaProductos(null, tblProductos);
         
@@ -302,6 +307,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         MenuGeneral.limpiarCampos(pnlDatos);
         btnGuardar.setEnabled(true);
+        desActivarCampos(pnlDatos, true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -350,6 +356,7 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         productos.add(prod);
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
+        desActivarCampos(pnlDatos, false);
         btnGuardar.setEnabled(false);
         MenuGeneral.cargarTablaProductos(null, tblProductos);
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -391,12 +398,39 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        int codigo = Integer.parseInt(txtCodigo.getText());
-        String descripcion = txtDescripcion.getText();
+        if (txtCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un código para buscar.", "Atención!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        MenuGeneral.borraFilasTabla(modelo);
+    
+        for (Producto prod : productos) {
+            if (prod.getCodigo() == codigo) {
+                modelo.addRow(new Object[]{
+                    prod.getCodigo(),
+                    prod.getDescripcion(),
+                    prod.getPrecio(),
+                    prod.getRubro(),
+                    prod.getStock()
+                });
+            }
+        }
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    public void desActivarCampos(JPanel panel, boolean valor) {
+        for (Component comp : panel.getComponents()) {
+            if (comp instanceof JTextField 
+                || comp instanceof JComboBox 
+                || comp instanceof JSpinner) {
+            comp.setEnabled(valor);
+        }
+        }
+    }
     private void cargarCboBoxs() {
         cboCategoria.removeAllItems();
         cboRubro.removeAllItems();
