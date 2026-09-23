@@ -3,14 +3,9 @@ package Vistas;
 
 import Clases.Categoria;
 import Clases.Producto;
-import java.awt.Component;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class iFrmGestion extends javax.swing.JInternalFrame {
@@ -228,6 +223,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/update.png"))); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
@@ -314,51 +314,18 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         MenuGeneral.limpiarCampos(pnlDatos);
         btnGuardar.setEnabled(true);
         MenuGeneral.desActivarCampos(pnlDatos, true);
-        MenuGeneral.camposEditables(pnlDatos, true);
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
         MenuGeneral.cargarTablaProductos(null, tblProductos);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        if (txtCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código.");
+        // TODO add your handling code here:        
+        if (!MenuGeneral.validarCamposVacios(pnlDatos, txtPrecio)) {
             return;
         }
         
-        if (txtDescripcion.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar una descripción.");
-            return;
-        }
-        
-        if (txtPrecio.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un precio.");
-            return;
-        }
-        
-        if (cboRubro.getSelectedItem() == null || cboRubro.getSelectedItem().toString().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un rubro.");
-            return;
-        }
-        
-        if ((int) spinStock.getValue() < 0) {
-            JOptionPane.showMessageDialog(this, "El stock no puede ser negativo.");
-            return;
-        }
-        
-        int codigo = Integer.parseInt(txtCodigo.getText());
-        String descripcion = txtDescripcion.getText();
-        
-        if (!MenuGeneral.validarPrecio(txtPrecio)) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un precio válido.", "Atención!", JOptionPane.ERROR_MESSAGE);
-            txtPrecio.setText("");
-            return;
-        }
-        
-        double precio = Double.parseDouble(txtPrecio.getText());
-        Categoria cat = Categoria.valueOf((String) cboRubro.getSelectedItem());  
-        int stock = (int) spinStock.getValue();
-        Producto prod = new Producto(codigo, descripcion, precio, stock, cat);
-        
+        Producto prod = obtenerDatos();
         System.out.println(prod.toString());
         
         productos.add(prod);
@@ -434,6 +401,8 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         MenuGeneral.limpiarCampos(pnlDatos);
         MenuGeneral.desActivarCampos(pnlDatos, true);
+       btnActualizar.setEnabled(true);
+       btnEliminar.setEnabled(true);
         
         int fila = tblProductos.getSelectedRow();
         
@@ -453,10 +422,26 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
             int stock = Integer.parseInt(tblProductos.getValueAt(fila, 4).toString());
             spinStock.setValue(stock);
             
-            MenuGeneral.camposEditables(pnlDatos, false);
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    public Producto obtenerDatos() {      
+        
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        Categoria cat = Categoria.valueOf((String) cboRubro.getSelectedItem());  
+        int stock = (int) spinStock.getValue();
+        Producto prod = new Producto(codigo, descripcion, precio, stock, cat);
+        
+        return prod;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;

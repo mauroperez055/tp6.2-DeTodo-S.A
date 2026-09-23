@@ -6,6 +6,7 @@ import Clases.Producto;
 import java.awt.Component;
 import java.util.TreeSet;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -199,6 +200,44 @@ public class MenuGeneral extends javax.swing.JFrame {
         for (Categoria cat : Categoria.values()) {
             cboBox.addItem(cat.name());
         }
+    }
+    
+    public static boolean validarCamposVacios(JPanel jPanel, JTextField txtPrecio) {
+        
+        for (int i = 0; i < jPanel.getComponents().length; i++) {
+            
+            if (jPanel.getComponents()[i] instanceof JTextField) {
+                JTextField caja = (JTextField) jPanel.getComponents()[i];
+                if (caja.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe completar todos los campos.", "Atención!", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+                
+                if (caja == txtPrecio && !validarPrecio(caja)) {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un precio válido.", "Atención!", JOptionPane.ERROR_MESSAGE);
+                    txtPrecio.setText("");
+                    return false;
+                }
+            }
+            
+            if (jPanel.getComponents()[i] instanceof JComboBox) {
+                JComboBox combo = (JComboBox) jPanel.getComponents()[i];
+                if (combo.getSelectedItem() == null || !combo.isEnabled() || combo.getSelectedItem().toString().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar una cateegoría.", "Atención!", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+            }
+            
+            if (jPanel.getComponents()[i] instanceof JSpinner) {
+                JSpinner spin = (JSpinner) jPanel.getComponents()[i];
+                if ((int) spin.getValue() < 0) {
+                    JOptionPane.showMessageDialog(null, "El stock no puede ser negativo.", "Atención!", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+            }
+
+        }
+        return true;
     }
     
     public static void main(String args[]) {
