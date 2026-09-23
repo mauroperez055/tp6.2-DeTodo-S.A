@@ -328,6 +328,15 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         Producto prod = obtenerDatos();
         System.out.println(prod.toString());
         
+        int codigo = prod.getCodigo();
+        
+        for (Producto producto : productos) {
+            if (producto.getCodigo() == codigo) {
+                JOptionPane.showMessageDialog(this, "El código de producto ya existe.", "Atención!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+        
         productos.add(prod);
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto guardado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
