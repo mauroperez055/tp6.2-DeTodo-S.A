@@ -64,12 +64,27 @@ public class MenuGeneral extends javax.swing.JFrame {
         mnuConsultas.setText("Consultas");
 
         mniPorNombre.setText("Consulta por Nombre");
+        mniPorNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniPorNombreActionPerformed(evt);
+            }
+        });
         mnuConsultas.add(mniPorNombre);
 
         mniPorPrecio.setText("Consulta por Precio");
+        mniPorPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniPorPrecioActionPerformed(evt);
+            }
+        });
         mnuConsultas.add(mniPorPrecio);
 
         mniPorRubro.setText("Consulta por Rubro");
+        mniPorRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniPorRubroActionPerformed(evt);
+            }
+        });
         mnuConsultas.add(mniPorRubro);
 
         jMenuBar1.add(mnuConsultas);
@@ -100,6 +115,36 @@ public class MenuGeneral extends javax.swing.JFrame {
         escritorio.add(gestion);
         gestion.moveToFront();
     }//GEN-LAST:event_mniProductosActionPerformed
+
+    private void mniPorNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPorNombreActionPerformed
+        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        iFrmListadoNombre listadoNombre = new iFrmListadoNombre();
+        listadoNombre.setVisible(true);
+        escritorio.add(listadoNombre);
+        listadoNombre.moveToFront();
+    }//GEN-LAST:event_mniPorNombreActionPerformed
+
+    private void mniPorPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPorPrecioActionPerformed
+        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        iFrmListadoPrecio listadoPrecio = new iFrmListadoPrecio();
+        listadoPrecio.setVisible(true);
+        escritorio.add(listadoPrecio);
+        listadoPrecio.moveToFront();
+    }//GEN-LAST:event_mniPorPrecioActionPerformed
+
+    private void mniPorRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPorRubroActionPerformed
+        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        iFrmListadoRubro listadoRubro = new iFrmListadoRubro();
+        listadoRubro.setVisible(true);
+        escritorio.add(listadoRubro);
+        listadoRubro.moveToFront();
+    }//GEN-LAST:event_mniPorRubroActionPerformed
 
     public static void borraFilasTabla(DefaultTableModel modelo) {
         int filas = modelo.getRowCount() -1;

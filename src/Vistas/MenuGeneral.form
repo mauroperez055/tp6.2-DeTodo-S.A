@@ -28,16 +28,25 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consulta por Nombre"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniPorNombreActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniPorPrecio">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consulta por Precio"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniPorPrecioActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniPorRubro">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consulta por Rubro"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniPorRubroActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
