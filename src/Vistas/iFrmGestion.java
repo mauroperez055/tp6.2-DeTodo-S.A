@@ -3,6 +3,7 @@ package Vistas;
 
 import Clases.Categoria;
 import Clases.Producto;
+import java.util.Iterator;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -233,6 +234,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/bin.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -453,6 +459,24 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
         ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
         JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        Iterator<Producto> it = productos.iterator();
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        
+        while (it.hasNext()) {
+            if (it.next().getCodigo() == codigo) {
+                it.remove();
+            }
+        }
+        
+        JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        MenuGeneral.desActivarCampos(pnlDatos, false);
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private Producto obtenerDatos() {      
         
