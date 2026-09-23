@@ -312,8 +312,9 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         MenuGeneral.limpiarCampos(pnlDatos);
-        btnGuardar.setEnabled(true);
         MenuGeneral.desActivarCampos(pnlDatos, true);
+        txtCodigo.setEditable(true);
+        btnGuardar.setEnabled(true);
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
         MenuGeneral.cargarTablaProductos(null, tblProductos);
@@ -414,10 +415,10 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
        btnEliminar.setEnabled(true);
         
         int fila = tblProductos.getSelectedRow();
-        
         if (fila != -1) {
             String codigo = tblProductos.getValueAt(fila, 0).toString();
             txtCodigo.setText(codigo);
+            txtCodigo.setEditable(false);
             
             String descripcion = tblProductos.getValueAt(fila, 1).toString();
             txtDescripcion.setText(descripcion);
@@ -436,10 +437,24 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
+        int codigo = Integer.parseInt(txtCodigo.getText());
         
+        for (Producto p : productos) {
+            if (p.getCodigo() == codigo) {
+                p.setDescripcion(txtDescripcion.getText());
+                p.setPrecio(Double.parseDouble(txtPrecio.getText()));
+                p.setRubro(Categoria.valueOf(cboRubro.getSelectedItem().toString()));
+                p.setStock((int) spinStock.getValue());
+                break;
+            }
+        }
+        
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/icons8-check-mark-48.png"));
+        JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente!", "Mensaje", JOptionPane.INFORMATION_MESSAGE, icono);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    public Producto obtenerDatos() {      
+    private Producto obtenerDatos() {      
         
         int codigo = Integer.parseInt(txtCodigo.getText());
         String descripcion = txtDescripcion.getText();
@@ -475,4 +490,5 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -177,22 +177,6 @@ public class MenuGeneral extends javax.swing.JFrame {
         }
     }
     
-    public static void camposEditables(JPanel panel, boolean valor) {
-        for (Component comp : panel.getComponents()) {
-            if (comp instanceof JTextField) {
-                ((JTextField) comp).setEditable(valor);
-            }
-            
-            if (comp instanceof JComboBox) {
-                ((JComboBox) comp).setEnabled(valor);
-            }
-            
-            if (comp instanceof JSpinner) {
-               ((JSpinner) comp).setEnabled(valor);
-            }
-        }
-    }
-    
     public static void cargarComboBox(JComboBox cboBox) {
         cboBox.removeAllItems();
         cboBox.addItem("");
@@ -239,7 +223,7 @@ public class MenuGeneral extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
