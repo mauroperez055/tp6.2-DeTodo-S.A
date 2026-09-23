@@ -1,11 +1,18 @@
 
 package Vistas;
 
+import Clases.Categoria;
+import Clases.Producto;
+import java.util.TreeSet;
+
 public class iFrmListadoRubro extends javax.swing.JInternalFrame {
 
+    private TreeSet<Producto> productos = MenuGeneral.getProductos();
+    
     public iFrmListadoRubro() {
         initComponents();
-        
+        MenuGeneral.cargarComboBox(cboRubro);
+        MenuGeneral.cargarTablaProductos(null, tblProductos);
     }
 
     @SuppressWarnings("unchecked")
@@ -25,6 +32,12 @@ public class iFrmListadoRubro extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Rubro:");
+
+        cboRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboRubroActionPerformed(evt);
+            }
+        });
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -75,6 +88,19 @@ public class iFrmListadoRubro extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboRubroActionPerformed
+        // TODO add your handling code here:
+        String seleccionCat = (String) cboRubro.getSelectedItem();
+        
+        if (seleccionCat == null || seleccionCat.isEmpty()) {
+            MenuGeneral.cargarTablaProductos(null, tblProductos);
+            return;
+        }
+        
+        Categoria cat = Categoria.valueOf((String) cboRubro.getSelectedItem()); 
+        MenuGeneral.cargarTablaProductos(cat, tblProductos);
+    }//GEN-LAST:event_cboRubroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
