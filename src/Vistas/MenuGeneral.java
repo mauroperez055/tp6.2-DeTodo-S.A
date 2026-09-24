@@ -4,7 +4,10 @@ package Vistas;
 import Clases.Categoria;
 import Clases.Producto;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.TreeSet;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +30,13 @@ public class MenuGeneral extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        escritorio = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Imagen/fondo.jpg"));
+        Image miImagen = icono.getImage();
+        escritorio = new javax.swing.JDesktopPane() {
+            public void paintComponent (Graphics g) {
+                g.drawImage(miImagen, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAdm = new javax.swing.JMenu();
         mniProductos = new javax.swing.JMenuItem();
