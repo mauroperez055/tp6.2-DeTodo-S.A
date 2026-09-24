@@ -7,8 +7,6 @@ import java.util.TreeSet;
 
 public class iFrmListadoRubro extends javax.swing.JInternalFrame {
 
-    private TreeSet<Producto> productos = MenuGeneral.getProductos();
-    
     public iFrmListadoRubro() {
         initComponents();
         MenuGeneral.cargarComboBox(cboRubro);

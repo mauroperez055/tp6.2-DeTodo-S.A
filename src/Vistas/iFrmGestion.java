@@ -136,6 +136,8 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
 
         cboRubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
 
+        spinStock.setModel(new javax.swing.SpinnerNumberModel());
+
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
         pnlDatos.setLayout(pnlDatosLayout);
         pnlDatosLayout.setHorizontalGroup(
@@ -150,11 +152,11 @@ public class iFrmGestion extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addGap(53, 53, 53)
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(spinStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCodigo)
                     .addComponent(txtDescripcion)
                     .addComponent(txtPrecio)
-                    .addComponent(cboRubro, 0, 215, Short.MAX_VALUE))
+                    .addComponent(cboRubro, 0, 215, Short.MAX_VALUE)
+                    .addComponent(spinStock, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlDatosLayout.setVerticalGroup(
